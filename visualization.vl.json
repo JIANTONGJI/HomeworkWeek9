@@ -1,0 +1,43 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "title": "US Gun Violence dead",
+  "width": 800,
+  "height": 500,
+  "projection": {"type": "albersUsa"},
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/JIANTONGJI/HomeworkWeek9/main/ne_110m_admin_1_states_provinces.json",
+        "format": {
+          "type": "topojson",
+          "feature": "ne_110m_admin_1_states_provinces"
+        }
+      },
+      "transform": [
+        {
+          "lookup": "properties.name",
+          "from": {
+            "data": {
+              "url": "https://raw.githubusercontent.com/JIANTONGJI/HomeworkWeek9/main/mass_shootings_all.csv"
+            },
+            "key": "State",
+            "fields": ["# Killed"]
+          }
+        }
+      ],
+      "mark": {"type": "geoshape", "stroke": "white"},
+      "encoding": {
+        "color": {
+          "field": "# Killed",
+          "type": "quantitative",
+          "scale": {
+            "type": "threshold",
+            "domain": [2, 4, 6, 8, 10],
+            "range": ["#fdbe85", "#fd8d3c", "#e6550d", "#a63603"]
+          }
+        }
+      }
+    }
+  ],
+  "config": {}
+}
